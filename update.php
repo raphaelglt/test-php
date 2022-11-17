@@ -19,8 +19,8 @@ $auteurs = $stmt->fetchAll();
 
 if (isset($_POST['submit']) && isset($validGet)) {
     if (!empty($_POST['nom']) && !empty($_POST['synopsis']) && !empty($_POST['auteur']) && !empty($_POST['date_parution'])) {
-        if (strlen()$_POST['nom'] > 3) {
-            if (strlen()$_POST['synopsis'] > 15) {
+        if (strlen($_POST['nom']) > 3) {
+            if (strlen($_POST['synopsis']) > 15) {
                 $stmt = $dbh->prepare('UPDATE livres SET livre_nom = :livre_nom, livre_synopsis = :livre_synopsis, livre_auteur = :livre_auteur, livre_date_parution = :livre_date_parution WHERE livre_id = :livre_id');
                 $stmt->bindParam(":livre_nom", trim($_POST['nom']));
                 $stmt->bindParam(":livre_synopsis", trim($_POST['synopsis']));

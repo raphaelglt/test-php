@@ -5,8 +5,8 @@ $auteurs = $stmt->fetchAll();
 
 if (isset($_POST['submit'])) {
     if (!empty($_POST['nom']) && !empty($_POST['synopsis']) && !empty($_POST['auteur']) && !empty($_POST['date_parution'])) {
-        if (strlen()$_POST['nom'] > 3) {
-            if (strlen()$_POST['synopsis'] > 15) {
+        if (strlen($_POST['nom']) > 3) {
+            if (strlen($_POST['synopsis']) > 15) {
                 $stmt = $dbh->prepare('INSERT INTO livres (livre_nom, livre_synopsis, livre_auteur, livre_date_parution) VALUES(:livre_nom, :livre_synopsis, :livre_auteur, :livre_date_parution)');
                 $stmt->bindParam(":livre_nom", trim($_POST['nom']));
                 $stmt->bindParam(":livre_synopsis", trim($_POST['synopsis']));
