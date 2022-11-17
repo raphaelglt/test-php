@@ -1,0 +1,8 @@
+#table {
+    display: flex;
+    width: 80%;
+    margin-right: auto;
+    margin-left: auto;
+    flex-direction: column;
+    justify-content: center;
+}
