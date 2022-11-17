@@ -18,14 +18,20 @@ $stmt = $dbh->query('SELECT * FROM auteurs');
 $auteurs = $stmt->fetchAll();
 
 if (isset($_POST['submit']) && isset($validGet)) {
-    $stmt = $dbh->prepare('UPDATE livres SET livre_nom = :livre_nom, livre_synopsis = :livre_synopsis, livre_auteur = :livre_auteur, livre_date_parution = :livre_date_parution WHERE livre_id = :livre_id');
-    $stmt->bindParam(":livre_nom", $_POST['nom']);
-    $stmt->bindParam(":livre_synopsis", $_POST['synopsis']);
-    $stmt->bindParam(":livre_auteur", $_POST['auteur']);
-    $stmt->bindParam(":livre_date_parution", $_POST['date_parution']);
-    $stmt->bindParam(":livre_id", $_GET['id']);
-    $stmt->execute();
-    header('Location: ./list.php');
+    if (!empty($_POST['nom']) && !empty($_POST['synopsis']) && !empty($_POST['auteur']) && !empty($_POST['date_parution'])) {
+        if (strlen()$_POST['nom'] > 3) {
+            if (strlen()$_POST['synopsis'] > 15) {
+                $stmt = $dbh->prepare('UPDATE livres SET livre_nom = :livre_nom, livre_synopsis = :livre_synopsis, livre_auteur = :livre_auteur, livre_date_parution = :livre_date_parution WHERE livre_id = :livre_id');
+                $stmt->bindParam(":livre_nom", trim($_POST['nom']));
+                $stmt->bindParam(":livre_synopsis", trim($_POST['synopsis']));
+                $stmt->bindParam(":livre_auteur", trim($_POST['auteur']));
+                $stmt->bindParam(":livre_date_parution", trim($_POST['date_parution']));
+                $stmt->bindParam(":livre_id", $_GET['id']);
+                $stmt->execute();
+                header('Location: ./list.php');
+            }
+        }
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -53,11 +59,11 @@ if (isset($_POST['submit']) && isset($validGet)) {
                 <form method="post" action="">
                     <div class="form-group">
                         <label for="exampleFormControlInput1">Nom du livre</label>
-                        <input type="text" class="form-control" id="exampleFormControlInput1" name="nom" value="<?php if (isset($validGet)) echo $livre['livre_nom']; ?>" required />
+                        <input minlength="3" maxlength="255" type="text" class="form-control" id="exampleFormControlInput1" name="nom" value="<?php if (isset($validGet)) echo $livre['livre_nom']; ?>" required />
                     </div>
                     <div class="form-group">
                         <label for="exampleFormControlTextarea1">Synopsis du livre</label>
-                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="synopsis" required> <?php if (isset($validGet)) echo $livre['livre_synopsis']; ?></textarea>
+                        <textarea minlength="15" class="form-control" id="exampleFormControlTextarea1" rows="3" name="synopsis" required> <?php if (isset($validGet)) echo $livre['livre_synopsis']; ?></textarea>
                     </div>
                     <div class="form-group">
                         <label for="exampleFormControlSelect1">Nom de l'auteur</label>

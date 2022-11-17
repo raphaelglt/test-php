@@ -4,13 +4,19 @@ $stmt = $dbh->query('SELECT * FROM auteurs');
 $auteurs = $stmt->fetchAll();
 
 if (isset($_POST['submit'])) {
-    $stmt = $dbh->prepare('INSERT INTO livres (livre_nom, livre_synopsis, livre_auteur, livre_date_parution) VALUES(:livre_nom, :livre_synopsis, :livre_auteur, :livre_date_parution)');
-    $stmt->bindParam(":livre_nom", $_POST['nom']);
-    $stmt->bindParam(":livre_synopsis", $_POST['synopsis']);
-    $stmt->bindParam(":livre_auteur", $_POST['auteur']);
-    $stmt->bindParam(":livre_date_parution", $_POST['date_parution']);
-    $stmt->execute();
-    header('Location: ./list.php');
+    if (!empty($_POST['nom']) && !empty($_POST['synopsis']) && !empty($_POST['auteur']) && !empty($_POST['date_parution'])) {
+        if (strlen()$_POST['nom'] > 3) {
+            if (strlen()$_POST['synopsis'] > 15) {
+                $stmt = $dbh->prepare('INSERT INTO livres (livre_nom, livre_synopsis, livre_auteur, livre_date_parution) VALUES(:livre_nom, :livre_synopsis, :livre_auteur, :livre_date_parution)');
+                $stmt->bindParam(":livre_nom", trim($_POST['nom']));
+                $stmt->bindParam(":livre_synopsis", trim($_POST['synopsis']));
+                $stmt->bindParam(":livre_auteur", trim($_POST['auteur']));
+                $stmt->bindParam(":livre_date_parution", trim($_POST['date_parution']));
+                $stmt->execute();
+                header('Location: ./list.php');
+            }    
+        }    
+    }    
 }
 ?>
 <!DOCTYPE html>
@@ -38,11 +44,11 @@ if (isset($_POST['submit'])) {
                 <form method="post" action="">
                     <div class="form-group">
                         <label for="exampleFormControlInput1">Nom du livre</label>
-                        <input type="text" class="form-control" id="exampleFormControlInput1" name="nom">
+                        <input minlength="3" maxlength="255" type="text" class="form-control" id="exampleFormControlInput1" name="nom">
                     </div>
                     <div class="form-group">
                         <label for="exampleFormControlTextarea1">Synopsis du film</label>
-                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="synopsis"></textarea>
+                        <textarea minlength="15" class="form-control" id="exampleFormControlTextarea1" rows="3" name="synopsis"></textarea>
                     </div>
                     <div class="form-group">
                         <label for="exampleFormControlSelect1">Nom de l'auteur</label>
